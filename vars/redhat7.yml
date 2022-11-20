@@ -1,0 +1,13 @@
+---
+basic_packages:
+  - vim
+  - bash-completion
+  - wget
+  - curl
+  - yum-utils
+
+packages_for_k8s:
+  - lvm2
+  - firewalld
+  - python-firewall
+  - device-mapper-persistent-data

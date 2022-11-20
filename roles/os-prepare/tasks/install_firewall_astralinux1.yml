@@ -1,0 +1,28 @@
+---
+# Common part
+- name: Install ufw
+  ansible.builtin.package:
+    name: ufw
+    state: present
+
+- name: Start and enable ufw
+  ansible.builtin.service:
+    name: ufw
+    state: started
+    enabled: yes
+
+- name: Allow out and enable UFW
+  community.general.ufw:
+    state: "enabled"
+    policy: "allow"
+    direction: "outgoing"
+
+# Rules
+- name: Configure ufw 1
+  community.general.ufw:
+    rule: "allow"
+    port: "{{ port | string }}"
+    proto: "tcp"
+  loop: "{{ firewall_1_ports }}"
+  loop_control:
+    loop_var: port

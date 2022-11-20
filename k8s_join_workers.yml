@@ -1,0 +1,17 @@
+- hosts: kube,!kube_masters
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  tasks:
+    - name: Include join commands
+      include_vars: "{{ playbook_dir }}/vars/join_commands.yml"
+
+    - name: join worker
+      shell: "{{ join_worker_cmd }} 2>&1 | tee ~/join_worker.log"
+      args:
+        chdir: $HOME
+      register: output
+
+    - name: Output init cluster
+      debug:
+        msg: "{{ output.stdout.split('\n') }}"

@@ -1,0 +1,33 @@
+---
+- hosts: kube
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  tasks:
+    - name: Delete cluster
+      command: "kubeadm reset -f"
+      register: output
+
+    - name: Output delete cluster
+      debug:
+        msg: "{{ output.stdout.split('\n') }}"
+
+    - name: Delete /etc/cni/net.d
+      file:
+        path: "/etc/cni/net.d"
+        state: absent
+
+    - name: Delete logs
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "~/join_worker.log"
+        - "~/cluster_init.log"
+        - "~/install_calico.log"
+
+    - name: Delete .kube directory
+      file:
+        path: "/home/{{ item }}/.kube"
+        state: absent
+      loop: "{{ k8s_admins }}"

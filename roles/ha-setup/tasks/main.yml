@@ -1,0 +1,73 @@
+---
+- name: PRE tasks 3
+  ansible.builtin.include_tasks: '{{ tasks_file }}'
+  when: pre_tasks3 and tasks_file | length > 0
+  vars:
+    tasks_file: "{{ lookup('ansible.builtin.first_found', files=['pre_tasks_{{ os_distrib_version }}.yml', 'pre_tasks_{{ os_family_version }}.yml', 'pre_tasks_{{ os_distrib }}.yml', 'pre_tasks.yml'], errors='ignore') }}"
+  tags: pre_tasks3
+
+- name: Configure firewall 3
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "configure_firewall3_{{ os_distrib_version }}.yml"
+    - "configure_firewall3_{{ os_family_version }}.yml"
+    - "configure_firewall3_{{ os_distrib }}.yml"
+    - "configure_firewall3_{{ os_family }}.yml"
+  when: firewall and (not remove_firewall)
+  tags: firewall
+
+- name: Install HA packages
+  package:
+    name: [keepalived,haproxy,psmisc]  # killall in psmisc
+    state: present
+  tags: [haproxy, keepalived]
+
+- name: "Copy etc-keepalived-keepalived.master.conf"
+  template:
+    src: "etc-keepalived-keepalived.master.conf.j2"
+    dest: "/etc/keepalived/keepalived.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: inventory_hostname in groups['kube_masters'][0]
+  tags: keepalived
+
+- name: "Copy etc-keepalived-keepalived.backup.conf"
+  template:
+    src: "etc-keepalived-keepalived.backup.conf.j2"
+    dest: "/etc/keepalived/keepalived.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: (inventory_hostname in groups['kube_masters'][1]) or (inventory_hostname in groups['kube_masters'][2])
+  tags: keepalived
+
+- name: "Copy etc-haproxy-haproxy.cfg"
+  template:
+    src: "etc-haproxy-haproxy.cfg.j2"
+    dest: "/etc/haproxy/haproxy.cfg"
+    owner: root
+    group: root
+    mode: 0644
+  tags: haproxy
+
+- name: Enable keepalived service
+  systemd:
+    name: keepalived
+    enabled: yes
+    state: started
+  tags: keepalived
+
+- name: Restart haproxy service
+  systemd:
+    name: haproxy
+    state: restarted
+    daemon_reload: yes
+  tags: haproxy
+
+- name: POST tasks 3
+  ansible.builtin.include_tasks: '{{ tasks_file }}'
+  when: post_tasks3 and tasks_file | length > 0
+  vars:
+    tasks_file: "{{ lookup('ansible.builtin.first_found', files=['pre_tasks_{{ os_distrib_version }}.yml', 'pre_tasks_{{ os_family_version }}.yml', 'pre_tasks_{{ os_distrib }}.yml', 'pre_tasks.yml'], errors='ignore') }}"
+  tags: post_tasks3

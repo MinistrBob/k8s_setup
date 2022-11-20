@@ -1,0 +1,6 @@
+- name: "astra-nochmodx-lock disable"
+  command: "astra-nochmodx-lock disable"
+- name: "apt update"
+  command: "apt update"
+- name: "astra-update -A -r"
+  command: "astra-update -A -r"

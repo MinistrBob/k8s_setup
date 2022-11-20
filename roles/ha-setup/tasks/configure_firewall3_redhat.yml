@@ -1,0 +1,29 @@
+---
+- name: Install firewalld
+  ansible.builtin.package:
+    name: firewalld
+    state: present
+
+- name: Start and enable firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Configure firewalld for HA
+  ansible.posix.firewalld:
+    port: "{{ vip_port | string }}/tcp"
+    permanent: yes
+    state: enabled
+  when: inventory_hostname in groups['kube_masters']
+
+# VRRP Settings
+- name: Add rich rule for keepalived vrrp
+  firewalld:
+    rich_rule: 'rule protocol value="vrrp" accept'
+    permanent: true
+    immediate: true
+    state: enabled
+
+- name: Reload firewalld
+  shell: firewall-cmd --reload

@@ -1,0 +1,64 @@
+---
+- name: PRE tasks 2
+  ansible.builtin.include_tasks: '{{ tasks_file }}'
+  when: pre_tasks2 and tasks_file | length > 0
+  vars:
+    tasks_file: "{{ lookup('ansible.builtin.first_found', files=['pre_tasks_{{ os_distrib_version }}.yml', 'pre_tasks_{{ os_family_version }}.yml', 'pre_tasks_{{ os_distrib }}.yml', 'pre_tasks.yml'], errors='ignore') }}"
+  tags: pre_tasks2
+
+- name: Configure firewall 2
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "configure_firewall2_{{ os_distrib_version }}.yml"
+    - "configure_firewall2_{{ os_family_version }}.yml"
+    - "configure_firewall2_{{ os_distrib }}.yml"
+    - "configure_firewall2_{{ os_family }}.yml"
+  when: firewall and (not remove_firewall)
+  tags: firewall
+
+- name: Disable swap
+  import_tasks: disable_swap.yml
+  tags: dis_swap
+
+- name: Load required kernel modules and sysctl configs
+  import_tasks: load_kernel_modules_sysctl.yml
+  tags: kernel_mod
+
+- name: Configure /etc/hosts file on each node
+  import_tasks: configure_etc_hosts_file.yml
+  when: etc_hosts
+  tags: etc_hosts
+
+- name: Configure container runtime
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "setup_{{ container_runtime }}_{{ os_distrib_version }}.yml"
+    - "setup_{{ container_runtime }}_{{ os_family_version }}.yml"
+    - "setup_{{ container_runtime }}_{{ os_distrib }}.yml"
+    - "setup_{{ container_runtime }}_{{ os_family }}.yml"
+  tags: container
+
+- name: Install k8s packages
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "install_k8s_packages_{{ os_distrib_version }}.yml"
+    - "install_k8s_packages_{{ os_family_version }}.yml"
+    - "k8s_repo_{{ os_distrib }}.yml"
+    - "k8s_repo_{{ os_family }}.yml"
+  tags: k8s_pack
+
+- name: Download k8s docker images
+  command: "kubeadm config images pull"
+  register: output
+  tags: ddi
+
+- name: Output download k8s docker images
+  debug:
+    msg: "{{ output.stdout.split('\n') }}"
+
+- name: POST tasks 2
+  ansible.builtin.include_tasks: '{{ tasks_file }}'
+  when: post_tasks2 and tasks_file | length > 0
+  vars:
+    tasks_file: "{{ lookup('ansible.builtin.first_found', files=['pre_tasks_{{ os_distrib_version }}.yml', 'pre_tasks_{{ os_family_version }}.yml', 'pre_tasks_{{ os_distrib }}.yml', 'pre_tasks.yml'], errors='ignore') }}"
+  tags: post_tasks2

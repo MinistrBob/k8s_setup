@@ -1,0 +1,23 @@
+---
+- name: Install firewalld
+  ansible.builtin.package:
+    name: firewalld
+    state: present
+
+- name: Start and enable firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Configure firewalld 1
+  ansible.posix.firewalld:
+    port: "{{ port | string }}/tcp"
+    permanent: yes
+    state: enabled
+  loop: '{{ firewall_1_ports }}'
+  loop_control:
+    loop_var: port
+
+- name: Reload firewalld
+  shell: firewall-cmd --reload
