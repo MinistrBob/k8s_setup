@@ -227,6 +227,11 @@ kube-scheduler-rtz-ppd-mk8s-01            1/1     Running   0          39m
 
 Copy command for join masters and workers from screen or from file `cluster_init.log` to `vars/join_commands.yml`.
 
+```bash
+cp vars/join_commands.yml.example vars/join_commands.yml
+nano vars/join_commands.yml
+```
+
 ### (Optional) Join masters
 
 If you are setting high availability (HA) configuration then you need to join other masters to cluster.
@@ -257,7 +262,7 @@ See kubernetes documentation: [Clean up](https://kubernetes.io/docs/setup/produc
 ansible-playbook -i inventory/standXXX.yml k8s_delete_cluster.yml
 ```
 
-If you have a need to clean the iptavles (you can not do this).  
+(Optional) If you have a need to clean the iptavles (you can not do this).  
 
 ```bash
 sudo iptables -F && sudo iptables -t nat -F && sudo iptables -t mangle -F && sudo iptables -X
