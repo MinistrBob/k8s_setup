@@ -7,9 +7,8 @@
   tags: [prep1, pre_tasks1]
   register: output
 
-- name: debug tasks_file
-  debug:
-    var: tasks_file
+- name: if this file does not exist, I do not care .. file plugin itself warns anyway ...
+  debug: msg="{{ lookup('ansible.builtin.first_found', files=['pre_tasks_{{ os_distrib_version }}.yml', 'pre_tasks_{{ os_family_version }}.yml', 'pre_tasks_{{ os_distrib }}.yml', 'pre_tasks.yml'], errors='ignore') }}"
   tags: [prep1, pre_tasks1]
 
 - name: debug
