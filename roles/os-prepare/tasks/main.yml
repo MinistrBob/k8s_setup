@@ -99,7 +99,7 @@
   tags: [prep2, config_ntp]
 
 - name: POST tasks 1
-  import_tasks: "post_tasks.yml"
+  import_tasks: "post_tasks1.yml"
   when: post_tasks1
   tags: [prep2, post_tasks1]
 
