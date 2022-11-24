@@ -1,8 +1,8 @@
 ---
 basic_packages:
-  - apt-transport-https
   - ca-certificates
   - dialog
+  - apt-transport-https
   - vim
   - bash-completion
   - wget
