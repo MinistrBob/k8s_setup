@@ -1,7 +1,8 @@
 ---
 basic_packages:
-  - dialog
   - ca-certificates
+  - dialog
+  - python3-apt
   - apt-transport-https
   - vim
   - bash-completion
