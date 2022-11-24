@@ -1,6 +1,6 @@
 ---
 - name: PRE tasks 1
-  ansible.builtin.include_tasks: 'pre_tasks.yml'
+  import_tasks: "pre_tasks.yml"
   when: pre_tasks1
   tags: [prep1, pre_tasks1]
 
