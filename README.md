@@ -189,6 +189,12 @@ This playbook does all the main work and fully prepares the cluster before it is
 ansible-playbook -i inventory/standXXX.yml k8s_setup.yml
 ```
 
+Tags can only be used to execute specific tasks.
+
+```bash
+ansible-playbook -i inventory/standXXX.yml k8s_setup.yml --tags "prep1,prep2"
+```
+
 ### Cluster initialization on one master
 
 Examples of three different ways to initialize a cluster. Here extra-vars parameter `mc` is the cluster initialization command.
