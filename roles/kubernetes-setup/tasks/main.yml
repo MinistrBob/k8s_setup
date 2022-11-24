@@ -49,10 +49,12 @@
   command: "kubeadm config images pull"
   register: output
   tags: ddi
+  when: inventory_hostname in groups['kube_masters']
 
 - name: Output download k8s docker images
   debug:
     msg: "{{ output.stdout.split('\n') }}"
+  when: inventory_hostname in groups['kube_masters']
 
 - name: POST tasks 2
   include_tasks: "post_tasks.yml"
