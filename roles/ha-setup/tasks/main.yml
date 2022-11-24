@@ -1,6 +1,6 @@
 ---
 - name: PRE tasks 3
-  import_tasks: "pre_tasks.yml"
+  include_tasks: "pre_tasks.yml"
   when: pre_tasks3
   tags: pre_tasks3
 
@@ -64,6 +64,6 @@
   tags: haproxy
 
 - name: POST tasks 3
-  import_tasks: "post_tasks3.yml"
+  include_tasks: "post_tasks3.yml"
   when: post_tasks3
   tags: post_tasks3

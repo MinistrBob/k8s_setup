@@ -1,6 +1,6 @@
 ---
 - name: PRE tasks 1
-  import_tasks: "pre_tasks.yml"
+  include_tasks: "pre_tasks.yml"
   when: pre_tasks1
   tags: [prep1, pre_tasks1]
 
@@ -105,6 +105,6 @@
 
 ### REBOOT for upgrade OS
 - name: Reboot servers
-  import_tasks: reboot_servers.yml
+  include_tasks: reboot_servers.yml
   when: reboot
   tags: [prep2, reboot]
