@@ -16,7 +16,7 @@
     - [Setting up ansible](#setting-up-ansible)
     - [Generate SSH key of any type](#generate-ssh-key-of-any-type)
     - [Configure inventory for the stand](#configure-inventory-for-the-stand)
-    - [Deploy SSH public key to remote hosts (setup SSH passwordless authentication) and visudo user](#deploy-ssh-public-key-to-remote-hosts--setup-ssh-passwordless-authentication--and-visudo-user)
+    - [Deploy SSH public key to remote hosts (setup SSH passwordless authentication) and visudo user](#deploy-ssh-public-key-to-remote-hosts-setup-ssh-passwordless-authentication-and-visudo-user)
     - [(Optional) Verify the MAC address and product_uuid are unique for every node](#-optional--verify-the-mac-address-and-product-uuid-are-unique-for-every-node)
     - [Running playbook k8s_setup.yml](#running-playbook-k8s-setupyml)
     - [Cluster initialization on one master](#cluster-initialization-on-one-master)
@@ -47,13 +47,14 @@ The playbook supports any Linux distributions, since you can add your own taskli
 
 ## Main ideas (basic concept)
 
-- All variables and list of hosts are collected in one file inventory (see example `inventory\example.standXXX.yml`).  
+- All variables and list of hosts are collected in one file inventory (see example `inventory\example.standXXX.yml`). In addition to variables dependent on the distribution and OS version. They are in the `vars` folder in the files `vars/{{ os_distrib_version }}.yml`
 - Main playbook `k8s_setup.yml` is divided into three stages (each of which is represented by a separate role): `OS prepare`, `Kubernetes setup` and `HA setup`. Each of which can be performed separately (or not performed). This can be regulated by variables in inventory (see example `inventory\example.standXXX.yml`) and tags.  
 - Each step in each of the three stages can be performed separately (or not performed). This can be regulated by variables in inventory (see example `inventory\example.standXXX.yml`) and tags.  
 - Stage `OS prepare` helps to prepare the server operating system and can be used not only for servers intended for the Kubernetes, but also for auxiliary servers (group `auxiliary`) included in this stand, for example, DNS, NTP, etc.  
 - Stage `Kubernetes Setup` OS prepare for K8S, setup container runtime and install k8s packages.  
 - Stage `HA Setup` installation and configuration of `keepalived` and `haproxy`.  
 - Support for various Linux distributions is implemented by adding a tasklists whose names are given by ansible facts `os_distrib_version`, `os_family_version`, `os_distrib` and `os_family` (see `k8s_setup.yml`). **Attention!** Some tasks for some Linux distributions are not currently implemented, for example `Config Access Control system (SELinux, AppArmor, parsec)`, and are left as a stub (see `roles/os-prepare/tasks/config_ac_astralinux.yml`).  
+- Each stage provides support for the execution of `PRE` and `POST` tasks. To use this feature, you need to create a file like this in the role folder (possible names are shown): `pre_tasks_{{ os_distrib_version }}.yml`, `pre_tasks_{{ os_family_version }}.yml`, `pre_tasks_{{ os_distrib }}.yml`, `pre_tasks.yml`. **ATTENTION!** These files are in `.gitignore` and are not stored in the git repository.
 
 ## Playbooks
 
