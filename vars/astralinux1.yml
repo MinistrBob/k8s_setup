@@ -1,7 +1,7 @@
 ---
 basic_packages:
-  - ca-certificates
   - dialog
+  - ca-certificates
   - apt-transport-https
   - vim
   - bash-completion
