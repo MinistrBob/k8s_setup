@@ -55,6 +55,6 @@
     msg: "{{ output.stdout.split('\n') }}"
 
 - name: POST tasks 2
-  include_tasks: "post_tasks2.yml"
+  include_tasks: "post_tasks.yml"
   when: post_tasks2
   tags: post_tasks2
