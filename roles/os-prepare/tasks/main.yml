@@ -1,15 +1,13 @@
 ---
 - name: PRE tasks 1
-  ansible.builtin.include_tasks: '{{ tasks_file }}'
-  when: pre_tasks1 and tasks_file | length > 0
-  vars:
-    tasks_file: "{{ lookup('ansible.builtin.first_found', files=['pre_tasks_{{ os_distrib_version }}.yml', 'pre_tasks_{{ os_family_version }}.yml', 'pre_tasks_{{ os_distrib }}.yml', 'pre_tasks.yml'], errors='ignore') }}"
-  tags: pre_tasks1
+  include_tasks: "pre_tasks.yml"
+  when: pre_tasks1
+  tags: [prep1, pre_tasks1]
 
 - name: Configure OS network
   import_tasks: config_os_network.yml
   when: config_os_network
-  tags: config_net
+  tags: [prep1, config_net]
 
 - name: Configure package manager
   include_tasks: "{{ item }}"
@@ -19,12 +17,12 @@
     - "config_pm_{{ os_distrib }}.yml"
     - "config_pm_{{ os_family }}.yml"
   when: config_pm
-  tags: config_pm
+  tags: [prep1, config_pm]
 
 - name: Config OS proxy
   import_tasks: config_os_proxy.yml
   when: setup_proxy
-  tags: set_proxy
+  tags: [prep1, set_proxy]
 
 - name: Config package manager proxy
   include_tasks: "{{ item }}"
@@ -34,7 +32,7 @@
     - "config_pm_proxy_{{ os_distrib }}.yml"
     - "config_pm_proxy_{{ os_family }}.yml"
   when: setup_proxy
-  tags: set_proxy
+  tags: [prep1, set_proxy]
 
 - name: Remove firewall
   include_tasks: "{{ item }}"
@@ -44,7 +42,7 @@
     - "remove_firewall_{{ os_distrib }}.yml"
     - "remove_firewall_{{ os_family }}.yml"
   when: remove_firewall
-  tags: remove_firewall
+  tags: [prep1, remove_firewall]
 
 - name: Install and configure firewall 1
   include_tasks: "{{ item }}"
@@ -54,7 +52,7 @@
     - "install_firewall_{{ os_distrib }}.yml"
     - "install_firewall_{{ os_family }}.yml"
   when: firewall and (not remove_firewall)
-  tags: firewall
+  tags: [prep1, firewall]
 
 - name: Config Access Control system (SELinux, AppArmor, parsec)
   include_tasks: "{{ item }}"
@@ -64,18 +62,21 @@
     - "config_ac_{{ os_distrib }}.yml"
     - "config_ac_{{ os_family }}.yml"
   when: config_ac
-  tags: config_ac
+  tags: [prep1, config_ac]
 
 ### REBOOT for network settings
 - name: Reboot servers
   import_tasks: reboot_servers.yml
   when: reboot
-  tags: reboot
+  tags: [prep1, reboot]
+
+# ---------- tag prep1 end   ----------
+# ---------- tag prep2 begin ----------
 
 - name: Install packages
   import_tasks: install_packages.yml
   when: install_pack
-  tags: install_pack
+  tags: [prep2, install_pack]
 
 - name: Upgrade OS
   include_tasks: "{{ item }}"
@@ -85,7 +86,7 @@
   - "upgrade_os_{{ os_distrib }}.yml"
   - "upgrade_os_{{ os_family }}.yml"
   when: upgrade_os
-  tags: upgrade_os
+  tags: [prep2, upgrade_os]
 
 - name: Install time sync client
   include_tasks: "{{ item }}"
@@ -95,17 +96,15 @@
     - "configure_timezone_ntp_{{ os_distrib }}.yml"
     - "configure_timezone_ntp_{{ os_family }}.yml"
   when: configure_timezone_ntp
-  tags: config_ntp
+  tags: [prep2, config_ntp]
 
 - name: POST tasks 1
-  ansible.builtin.include_tasks: '{{ tasks_file }}'
-  when: post_tasks1 and tasks_file | length > 0
-  vars:
-    tasks_file: "{{ lookup('ansible.builtin.first_found', files=['pre_tasks_{{ os_distrib_version }}.yml', 'pre_tasks_{{ os_family_version }}.yml', 'pre_tasks_{{ os_distrib }}.yml', 'pre_tasks.yml'], errors='ignore') }}"
-  tags: post_tasks1
+  include_tasks: "post_tasks.yml"
+  when: post_tasks1
+  tags: [prep2, post_tasks1]
 
 ### REBOOT for upgrade OS
 - name: Reboot servers
-  import_tasks: reboot_servers.yml
+  include_tasks: reboot_servers.yml
   when: reboot
-  tags: reboot
+  tags: [prep2, reboot]

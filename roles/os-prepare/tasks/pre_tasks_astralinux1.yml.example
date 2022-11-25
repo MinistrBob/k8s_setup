@@ -1,3 +1,11 @@
 - name: Set integrity level high
   command: "pdpl-user -i 63 {{ item }}"
   loop: "{{ k8s_admins }}"
+  tags: [prep1, pre_tasks1]
+
+- name: Install special packages
+  ansible.builtin.apt:
+    name: [ca-certificates, dialog]
+    state: present
+    update_cache: false
+  tags: [prep1, pre_tasks1]

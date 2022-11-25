@@ -17,6 +17,20 @@
     owner: root
     group: root
     mode: 0644
+  when: not (proxy_server | length > 0) and (proxy_port | length > 0)
+
+- name: "Download kubernetes-archive-keyring.gpg"
+  ansible.builtin.get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: 0644
+  environment:
+    http_proxy: "http://{{ proxy_server }}:{{ proxy_port }}"
+    https_proxy: "http://{{ proxy_server }}:{{ proxy_port }}"
+  when: (proxy_server | length > 0) and (proxy_port | length > 0)
+
 
 #- name: Run the equivalent of "apt-get update" as a separate step
 #  ansible.builtin.apt:
