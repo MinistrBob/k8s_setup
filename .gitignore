@@ -8,3 +8,4 @@ inventory/stand*.yml
 /**/test*.yml
 vars/join_commands.yml
 ansible.cfg
+*.bak
