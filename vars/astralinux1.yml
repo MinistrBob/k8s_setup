@@ -1,4 +1,8 @@
 ---
+special_packages:
+  - ca-certificates
+  - dialog
+
 basic_packages:
   - ca-certificates
   - dialog

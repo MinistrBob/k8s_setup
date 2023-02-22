@@ -1,6 +1,16 @@
+- name: Update cache
+  include_tasks: "update_cache.yml"
+
+- name: Install special packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+  loop:
+    - "{{ special_packages }}"
+  when: special_packages is defined and special_packages|length > 0
+
 - name: Install some packages needed to configure the nodes
   ansible.builtin.package:
     name: "{{ item }}"
   loop:
     - "{{ basic_packages }}"
-  
+  when: basic_packages is defined and basic_packages|length > 0
