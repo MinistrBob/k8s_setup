@@ -64,6 +64,7 @@ all:
     container_runtime: docker             # docker, cri-o, containerd.
     pod_network_cidr: "10.244.0.0/16"     # Pod subnet if using cri-o runtime (10.244.0.0/16;192.168.0.0/16).
     k8s_admins: ['root']                  # Kubernetes administrators on masters. There must be at least one administrator (example, root), otherwise it will not be possible to initialize CNI plugin.
+    insecure_docker_registries: '"k8s.gcr.io","docker.io","quay.io","registry.access.redhat.com"'  # List docker registries in 'insecure-registries' in /etc/docker/daemon.json.
 
     ## III. HA setup
     ha_setup: true                # Do you want to setup HA (keepalive + haproxy)?
