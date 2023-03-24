@@ -29,6 +29,10 @@
 
 - name: Configure container runtime
   include_tasks: "{{ item }}"
+  args:
+  apply:
+    tags:
+      - container
   with_first_found:
     - "setup_{{ container_runtime }}_{{ os_distrib_version }}.yml"
     - "setup_{{ container_runtime }}_{{ os_family_version }}.yml"
