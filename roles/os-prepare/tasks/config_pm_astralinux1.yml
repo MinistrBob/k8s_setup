@@ -1,5 +1,11 @@
-- name: copy /etc/apt/sources.list to remote host
-  copy:
-    content: "{{ etc_apt_sources_list }}"
+- name: template /etc/apt/sources.list
+  template:
+    src: sources.list.{{ os_distrib_version }}.j2
     dest: /etc/apt/sources.list
     mode: 644
+
+# - name: copy /etc/apt/sources.list to remote host
+#   copy:
+#     content: "{{ etc_apt_sources_list }}"
+#     dest: /etc/apt/sources.list
+#     mode: 644
