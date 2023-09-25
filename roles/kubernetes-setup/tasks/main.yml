@@ -46,8 +46,6 @@
   with_first_found:
     - "install_k8s_packages_{{ os_distrib_version }}.yml"
     - "install_k8s_packages_{{ os_family_version }}.yml"
-    - "k8s_repo_{{ os_distrib }}.yml"
-    - "k8s_repo_{{ os_family }}.yml"
   tags: k8s_pack
   when: not only_prepare_os_for_k8s
 

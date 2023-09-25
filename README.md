@@ -183,6 +183,7 @@ ansible-playbook stuff/check_unique_uuid.yml
 
 ### Running playbook k8s_setup.yml
 
+Note: All kubernetes packages are installed on all servers. They take up little space and don't interfere with anything, so separating the installation of packages into master and non-master doesn't make sense IMHO.  
 This playbook does all the main work and fully prepares the cluster before it is initialized.
 
 ```bash
@@ -195,9 +196,9 @@ Tags can only be used to execute specific tasks.
 ansible-playbook -i inventory/standXXX.yml k8s_setup.yml --tags "prep1,prep2"
 ```
 
-### Cluster initialization on one master
+### Cluster initialization
 
-Examples of three different ways to initialize a cluster. Here extra-vars parameter `mc` is the cluster initialization command.
+Examples of three different ways to initialize a cluster. Here extra-vars parameter `mc` is the cluster initialization command.  
 
 ```bash
 ansible-playbook -i inventory/standXXX.yml k8s_init_cluster.yml --extra-vars "mc='kubeadm init'"

@@ -78,7 +78,12 @@ all:
 
 # List hosts
   children:
-    kube:          # Kubernetes nodes
+    kube_masters:      # Kubernetes masters
+      hosts:
+        pp-mk8s-01:
+        pp-mk8s-02:
+        pp-mk8s-03:
+    kube_not_masters:  # Kubernetes nodes (all except the masters)
       hosts:
         pp-bal-01:
         pp-cach-01:
@@ -97,15 +102,7 @@ all:
         pp-ceph-s-02:
         pp-ceph-s-03:
         pp-ceph-s-04:
-        pp-mk8s-01:
-        pp-mk8s-02:
-        pp-mk8s-03:
-    kube_masters:  # Kubernetes masters
-      hosts:
-        pp-mk8s-01:
-        pp-mk8s-02:
-        pp-mk8s-03:
     auxiliary:
-      hosts:       # Additional servers
+      hosts:          # Additional servers
         pp-dns-01:
         pp-ntp-01:
