@@ -1,11 +1,17 @@
 ---
 - name: PRE tasks 2
   include_tasks: "pre_tasks.yml"
+  args:
+    apply:
+      tags: pre_tasks2  
   when: pre_tasks2
   tags: pre_tasks2
 
 - name: Configure firewall 2
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: firewall
   with_first_found:
     - "configure_firewall2_{{ os_distrib_version }}.yml"
     - "configure_firewall2_{{ os_family_version }}.yml"
@@ -43,6 +49,9 @@
 
 - name: Install k8s packages
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: k8s_pack
   with_first_found:
     - "install_k8s_packages_{{ os_distrib_version }}.yml"
     - "install_k8s_packages_{{ os_family_version }}.yml"
@@ -62,5 +71,8 @@
 
 - name: POST tasks 2
   include_tasks: "post_tasks.yml"
+  args:
+    apply:
+      tags: post_tasks2
   when: (not only_prepare_os_for_k8s) and post_tasks2
   tags: post_tasks2

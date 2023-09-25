@@ -1,6 +1,9 @@
 ---
 - name: PRE tasks 1
   include_tasks: "pre_tasks.yml"
+  args:
+    apply:
+      tags: [prep1, pre_tasks1]  
   when: pre_tasks1
   tags: [prep1, pre_tasks1]
 
@@ -35,6 +38,9 @@
 
 - name: Config package manager proxy
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: [prep1, set_proxy]
   with_first_found:
     - "config_pm_proxy_{{ os_distrib_version }}.yml"
     - "config_pm_proxy_{{ os_family_version }}.yml"
@@ -45,6 +51,9 @@
 
 - name: Remove firewall
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: [prep1, remove_firewall]
   with_first_found:
     - "remove_firewall_{{ os_distrib_version }}.yml"
     - "remove_firewall_{{ os_family_version }}.yml"
@@ -55,6 +64,9 @@
 
 - name: Install and configure firewall 1
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: [prep1, firewall]
   with_first_found:
     - "install_firewall_{{ os_distrib_version }}.yml"
     - "install_firewall_{{ os_family_version }}.yml"
@@ -65,6 +77,9 @@
 
 - name: Config Access Control system (SELinux, AppArmor, parsec)
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: [prep1, config_ac]
   with_first_found:
     - "config_ac_{{ os_distrib_version }}.yml"
     - "config_ac_{{ os_family_version }}.yml"
@@ -89,6 +104,9 @@
 
 - name: Upgrade OS
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: [prep2, upgrade_os]
   with_first_found:
   - "upgrade_os_{{ os_distrib_version }}.yml"
   - "upgrade_os_{{ os_family_version }}.yml"
@@ -99,6 +117,9 @@
 
 - name: Install time sync client
   include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: [prep2, config_ntp]  
   with_first_found:
     - "configure_timezone_ntp_{{ os_distrib_version }}.yml"
     - "configure_timezone_ntp_{{ os_family_version }}.yml"
@@ -109,11 +130,17 @@
 
 - name: POST tasks 1
   include_tasks: "post_tasks.yml"
+  args:
+    apply:
+      tags: [prep2, post_tasks1]
   when: post_tasks1
   tags: [prep2, post_tasks1]
 
 ### REBOOT for upgrade OS
 - name: Reboot servers
   include_tasks: reboot_servers.yml
+  args:
+    apply:
+      tags: [prep2, reboot]
   when: reboot
   tags: [prep2, reboot]
