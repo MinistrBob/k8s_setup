@@ -1,0 +1,7 @@
+# I don't check if the NetwokManager service is on the system. I just create a configuration file.  
+# NOTE: An OS reboot is required for the configuration to work.
+- name: /etc/NetworkManager/conf.d/calico.conf
+  template:
+    src: calico.conf.j2
+    dest: /etc/NetworkManager/conf.d/calico.conf
+    mode: 644

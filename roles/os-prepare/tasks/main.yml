@@ -9,6 +9,12 @@
   when: config_os_network
   tags: [prep1, config_net]
 
+# I don't check if the NetwokManager service is on the system. I just create a configuration file.  
+# NOTE: An OS reboot is required for the configuration to work.
+- name: Configure NetworkManager
+  import_tasks: configure_network_manager.yml
+  tags: [prep1]
+
 - name: Configure package manager
   include_tasks: "{{ item }}"
   with_first_found:
