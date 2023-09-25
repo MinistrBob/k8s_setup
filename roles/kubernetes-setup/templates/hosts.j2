@@ -1,5 +1,8 @@
 {{ hosts_file }}
 
-{% for host in groups['kube'] %}
+{% for host in groups['kube_masters'] %}
+{{ hostvars[host]['ansible_facts']['default_ipv4']['address'] }} {{ hostvars[host]['ansible_facts']['fqdn'] }} {{ hostvars[host]['ansible_facts']['hostname'] }}
+{% endfor %}
+{% for host in groups['kube_not_masters'] %}
 {{ hostvars[host]['ansible_facts']['default_ipv4']['address'] }} {{ hostvars[host]['ansible_facts']['fqdn'] }} {{ hostvars[host]['ansible_facts']['hostname'] }}
 {% endfor %}

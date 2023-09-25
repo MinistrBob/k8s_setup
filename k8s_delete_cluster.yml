@@ -1,5 +1,5 @@
 ---
-- hosts: kube
+- hosts: kube_masters:kube_not_masters
   become: yes
   become_method: sudo
   gather_facts: no

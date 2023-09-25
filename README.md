@@ -39,6 +39,7 @@ Follow the steps from point [How to use this project](#how-to-use-this-project) 
 ## Supported Linux distribution (distros)
 
 The playbook supports any Linux distributions, since you can add your own tasklist for each distribution or family of distributions. At the moment, the playbook contains tasklists for CentOS 7, CentOS 8, Debian, Ubuntu. The playbook was previously tested on CentOS 7 but has changed a lot since then. The current version has been tested on Astra Linux 1.7 (similar to Debian 10).  
+For Astra Linux os_distrib_version = astralinux1.  
 
 ## Project system requirements
 
@@ -135,8 +136,8 @@ The name of the stand (`stand.yml`) can be anything. It is possible to keep seve
 **Attention!** Two variables are required for SSH options: `ansible_user` and `ansible_private_key_file` (see `inventory/stand.yml.example`).  
 The project uses three groups:
 
-- **kube** - All servers for the cluster Kubernetes (masters and workers and others).  
 - **kube_masters** - Servers for master components Kubernetes. There may be one. For HA cofiguration it is better to have three master servers.  
+- **kube_not_masters** - All servers for the cluster Kubernetes (all except the masters).  
 - **auxiliary** - Auxiliary stand servers that are not included in the Kubernetes cluster. For them, only the first stage `OS prepare` is performed, for example, DNS, NTP, etc.  
 
 ```bash

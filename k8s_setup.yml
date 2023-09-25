@@ -43,7 +43,7 @@
 
 # Kubernetes Setup
 - name: Kubernetes Setup
-  hosts: kube
+  hosts: kube_masters:kube_not_masters
   # remote_user: <user>
   become: yes
   become_method: sudo

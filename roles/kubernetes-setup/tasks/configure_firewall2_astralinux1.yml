@@ -36,7 +36,7 @@
   loop: "{{ k8s_worker_ports | replace('-', ':') }}"
   loop_control:
     loop_var: port
-  when: inventory_hostname in groups['kube']
+  when: (inventory_hostname in groups['kube_masters']) or (inventory_hostname in groups['kube_not_masters'])
 
 - name: Open flannel ports on the ufw
   community.general.ufw:
