@@ -56,6 +56,7 @@ all:
     pre_tasks2: false             # Execute PRE tasks? (many specific tasks (for a particular OS)).
     post_tasks2: false            # Execute POST tasks? (many specific tasks (for a particular OS)).
     etc_hosts: false              # Add to /etc/hosts all servers? (if you have DNS, then this is not necessary).
+    only_prepare_os_for_k8s: false # Only prepare OS for Kubernetes (tags: pre_tasks2, firewall, dis_swap, kernel_mod, etc_hosts).    
     #### II. Kubernetes setup - values
     # Kubernetes settings
     k8s_packages_version: "1.23.4-00"     # (example: "1.23.4-00") Kubernetes packages version. Leave the value empty for 'latest'.

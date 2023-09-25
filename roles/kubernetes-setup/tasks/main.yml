@@ -39,6 +39,7 @@
     - "setup_{{ container_runtime }}_{{ os_distrib }}.yml"
     - "setup_{{ container_runtime }}_{{ os_family }}.yml"
   tags: container
+  when: not only_prepare_os_for_k8s
 
 - name: Install k8s packages
   include_tasks: "{{ item }}"
@@ -48,19 +49,20 @@
     - "k8s_repo_{{ os_distrib }}.yml"
     - "k8s_repo_{{ os_family }}.yml"
   tags: k8s_pack
+  when: not only_prepare_os_for_k8s
 
-- name: Download k8s docker images
+- name: Download k8s docker images 
   command: "kubeadm config images pull"
   register: output
   tags: ddi
-  when: inventory_hostname in groups['kube_masters']
+  when: (not only_prepare_os_for_k8s) and (inventory_hostname in groups['kube_masters'])
 
 - name: Output download k8s docker images
   debug:
     msg: "{{ output.stdout.split('\n') }}"
-  when: inventory_hostname in groups['kube_masters']
+  when: (not only_prepare_os_for_k8s) and (inventory_hostname in groups['kube_masters'])
 
 - name: POST tasks 2
   include_tasks: "post_tasks.yml"
-  when: post_tasks2
+  when: (not only_prepare_os_for_k8s) and post_tasks2
   tags: post_tasks2
