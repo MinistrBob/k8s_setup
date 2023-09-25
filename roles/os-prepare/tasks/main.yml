@@ -17,6 +17,7 @@
 
 - name: Configure package manager
   include_tasks: "{{ item }}"
+    tags: [prep1, config_pm]
   with_first_found:
     - "config_pm_{{ os_distrib_version }}.yml"
     - "config_pm_{{ os_family_version }}.yml"
