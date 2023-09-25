@@ -59,8 +59,8 @@ all:
     only_prepare_os_for_k8s: false # Only prepare OS for Kubernetes (tags: pre_tasks2, firewall, dis_swap, kernel_mod, etc_hosts).    
     #### II. Kubernetes setup - values
     # Kubernetes settings
-    k8s_packages_version: "1.23.4-00"     # (example: "1.23.4-00") Kubernetes packages version. Leave the value empty for 'latest'.
-    k8s_version: "1.23"                   # (example: "1.23") Kubernetes version for CRI-O repo.
+    k8s_packages_version: ""              # (example: "1.23.4-00") Kubernetes packages version. Leave the value empty for 'latest'.
+    k8s_version: ""                       # (example: "1.23") Kubernetes version for CRI-O repo.
     k8s_cni: calico                       # calico, flannel.
     container_runtime: docker             # docker, cri-o, containerd.
     pod_network_cidr: "10.244.0.0/16"     # Pod subnet if using cri-o runtime (10.244.0.0/16;192.168.0.0/16).
