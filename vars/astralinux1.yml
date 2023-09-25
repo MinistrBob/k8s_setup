@@ -12,6 +12,8 @@ basic_packages:
   - bash-completion
   - wget
   - curl
+  - htop
+  - jq
 
 packages_for_k8s:
   - lvm2
