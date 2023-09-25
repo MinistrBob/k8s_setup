@@ -35,7 +35,7 @@ all:
                                                 #   permissive - SELinux prints warnings instead of enforcing.
                                                 #   disabled - No SELinux policy is loaded
     timezone: "Europe/Moscow"                   # Timezone to set on all nodes.
-    ntp_servers: "192.168.101.2 192.168.101.3"  # list NTP server for configure NTP client.
+    ntp_servers: "192.168.101.2 192.168.101.3"  # list NTP server for configure NTP client (space delimiter).
     ###### Network configuration files
     ######## /etc/hosts
     hosts_file: |
