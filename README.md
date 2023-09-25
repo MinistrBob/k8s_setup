@@ -270,6 +270,7 @@ ansible-playbook -i inventory/standXXX.yml k8s_delete_cluster.yml
 ```
 
 (Optional) If you have a need to clean the iptavles (you can not do this).  
+WARNING: This can be dangerous! Therefore, you can backup the OS or take a snapshot of the virtual machine beforehand.  
 
 ```bash
 sudo iptables -F && sudo iptables -t nat -F && sudo iptables -t mangle -F && sudo iptables -X
