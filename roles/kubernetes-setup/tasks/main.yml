@@ -27,18 +27,18 @@
   when: etc_hosts
   tags: etc_hosts
 
-- name: Configure container runtime
+- name: Configure container runtime (CRI)
   include_tasks: "{{ item }}"
   args:
     apply:
       tags:
-        - container
+        - cri
   with_first_found:
     - "setup_{{ container_runtime }}_{{ os_distrib_version }}.yml"
     - "setup_{{ container_runtime }}_{{ os_family_version }}.yml"
     - "setup_{{ container_runtime }}_{{ os_distrib }}.yml"
     - "setup_{{ container_runtime }}_{{ os_family }}.yml"
-  tags: container
+  tags: cri
   when: not only_prepare_os_for_k8s
 
 - name: Install k8s packages
