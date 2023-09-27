@@ -47,6 +47,7 @@
   tags: cri
   when: not only_prepare_os_for_k8s
 
+# Install packages from vanila repo
 - name: Install k8s packages
   include_tasks: "{{ item }}"
   args:
@@ -56,7 +57,19 @@
     - "install_k8s_packages_{{ os_distrib_version }}.yml"
     - "install_k8s_packages_{{ os_family_version }}.yml"
   tags: k8s_pack
-  when: not only_prepare_os_for_k8s
+  when: not only_prepare_os_for_k8s and not install_from_astra_repo
+
+# Install packages from Linux Astra repo
+- name: Install k8s packages from Linux Astra repo
+  include_tasks: "{{ item }}"
+  args:
+    apply:
+      tags: k8s_pack
+  with_first_found:
+    - "install_k8s_packages_{{ os_distrib_version }}_from_astra.yml"
+    - "install_k8s_packages_{{ os_family_version }}_from_astra.yml"
+  tags: k8s_pack
+  when: not only_prepare_os_for_k8s and install_from_astra_repo
 
 - name: Download k8s docker images 
   command: "kubeadm config images pull"

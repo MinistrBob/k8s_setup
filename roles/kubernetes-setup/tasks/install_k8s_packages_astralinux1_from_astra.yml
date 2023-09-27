@@ -1,0 +1,26 @@
+---
+#- name: Run the equivalent of "apt-get update" as a separate step
+#  ansible.builtin.apt:
+#    update_cache: yes
+
+- name: "apt update"
+  command: "apt update"
+  register: output
+
+- name: Output apt update
+  debug:
+    msg: "{{ output.stdout.split('\n') }}"
+
+- name: Install kubernetes packages
+  apt:
+    name: [kubernetes-master, kubernetes-admin, kubernetes-client]
+    update_cache: yes
+  when: not (k8s_packages_version | length > 0)
+
+- name: Hold packages
+  shell: "apt-mark hold kubelet kubeadm kubectl"
+
+- name: Enable kubelet service
+  ansible.builtin.service:
+    name: kubelet
+    enabled: yes
