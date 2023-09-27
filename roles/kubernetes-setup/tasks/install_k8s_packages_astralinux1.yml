@@ -33,8 +33,7 @@
   when: (proxy_server | length > 0) and (proxy_port | length > 0)
 
 - name: "Add key to keyrings"
-  command: "cat /usr/share/keyrings/kubernetes-archive-keyring.gpg | sudo gpg --yes --dearmor -o /etc/apt/keyrings/kubernetes.gpg"
-  register: output
+  shell: "cat /usr/share/keyrings/kubernetes-archive-keyring.gpg | sudo gpg --yes --dearmor -o /etc/apt/keyrings/kubernetes.gpg"
 
 #- name: Run the equivalent of "apt-get update" as a separate step
 #  ansible.builtin.apt:
