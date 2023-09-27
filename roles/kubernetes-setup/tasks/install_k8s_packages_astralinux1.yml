@@ -10,6 +10,7 @@
 - name: Create keyrings directory
   file: path=/usr/share/keyrings state=directory mode=0755
 
+# Download kubernetes-archive-keyring.gpg with proxy and without proxy
 - name: "Download kubernetes-archive-keyring.gpg"
   ansible.builtin.get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
@@ -19,7 +20,7 @@
     mode: 0644
   when: not ((proxy_server | length > 0) and (proxy_port | length > 0))
 
-- name: "Download kubernetes-archive-keyring.gpg"
+- name: "Download kubernetes-archive-keyring.gpg with proxy"
   ansible.builtin.get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     dest: /usr/share/keyrings/kubernetes-archive-keyring.gpg
