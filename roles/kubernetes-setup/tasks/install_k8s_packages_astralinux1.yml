@@ -53,7 +53,7 @@
     update_cache: yes
   when: not (k8s_packages_version | length > 0)
 
-- name: Install kubernetes packages
+- name: Install kubernetes packages specific version
   apt:
     name: ["kubelet={{ k8s_packages_version }}","kubeadm={{ k8s_packages_version }}","kubectl={{ k8s_packages_version }}"]
     update_cache: yes
