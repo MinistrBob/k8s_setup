@@ -11,7 +11,7 @@
   debug:
     msg: "{{ output.stdout.split('\n') }}"
 
-- name: Install kubernetes packages
+- name: Install kubernetes packages from Astra Linux repo
   apt:
     name: [kubernetes-master, kubernetes-admin, kubernetes-client, kubernetes-node]
     update_cache: yes
