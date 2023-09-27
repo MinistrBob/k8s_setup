@@ -13,12 +13,12 @@
 
 - name: Install kubernetes packages
   apt:
-    name: [kubernetes-master, kubernetes-admin, kubernetes-client]
+    name: [kubernetes-master, kubernetes-admin, kubernetes-client, kubernetes-node]
     update_cache: yes
   when: not (k8s_packages_version | length > 0)
 
 - name: Hold packages
-  shell: "apt-mark hold kubelet kubeadm kubectl"
+  shell: "apt-mark hold kubernetes-master kubernetes-admin kubernetes-client kubernetes-node"
 
 - name: Enable kubelet service
   ansible.builtin.service:
