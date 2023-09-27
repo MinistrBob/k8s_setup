@@ -40,8 +40,8 @@
       tags:
         - cri
   with_first_found:
+    - "setup_{{ container_runtime }}_{{ os_family_version }}.yml"  
     - "setup_{{ container_runtime }}_{{ os_distrib_version }}.yml"
-    - "setup_{{ container_runtime }}_{{ os_family_version }}.yml"
     - "setup_{{ container_runtime }}_{{ os_distrib }}.yml"
     - "setup_{{ container_runtime }}_{{ os_family }}.yml"
   tags: cri
