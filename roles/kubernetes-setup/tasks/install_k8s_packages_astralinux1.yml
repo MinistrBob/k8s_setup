@@ -14,6 +14,7 @@
 - name: "Download kubernetes-archive-keyring.gpg"
   ansible.builtin.get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+         https://packages.cloud.google.com/apt/doc/apt-key.gpg
     dest: /usr/share/keyrings/kubernetes-archive-keyring.gpg
     owner: root
     group: root
@@ -32,6 +33,9 @@
     https_proxy: "http://{{ proxy_server }}:{{ proxy_port }}"
   when: (proxy_server | length > 0) and (proxy_port | length > 0)
 
+- name: "Add key to keyrings"
+  command: "cat /usr/share/keyrings/kubernetes-archive-keyring.gpg | sudo gpg --yes --dearmor -o /etc/apt/keyrings/kubernetes.gpg"
+  register: output
 
 #- name: Run the equivalent of "apt-get update" as a separate step
 #  ansible.builtin.apt:
