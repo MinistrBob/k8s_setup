@@ -40,6 +40,7 @@ Follow the steps from point [How to use this project](#how-to-use-this-project) 
 
 The playbook supports any Linux distributions, since you can add your own tasklist for each distribution or family of distributions. At the moment, the playbook contains tasklists for CentOS 7, CentOS 8, Debian, Ubuntu. The playbook was previously tested on CentOS 7 but has changed a lot since then. The current version has been tested on Astra Linux 1.7 (similar to Debian 10).  
 For Astra Linux os_distrib_version = astralinux1.  
+NOTE: In Astra Linux it is possible to install Kubernetes version no higher than 1.23.4 from the VANILLA repository, because the Astra Linux repository has cri-tools version=1.21.0~2, and kubernetes binaries require cri-tools version >= 1.23.0. In the Astra Linux repository, the maximum Kubernetes version is 1.23.17.
 
 ## Project system requirements
 
