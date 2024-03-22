@@ -7,6 +7,12 @@
   when: pre_tasks1
   tags: [prep1, pre_tasks1]
 
+# To fix the inability to create a container. See [k8s | memory.swap.max or memory.memsw.limit_in_bytes: no such file or directory error message](https://cspenpen.blogspot.com/2022/01/k8s-memoryswapmax-or.html)
+- name: Configure GRUB
+  import_tasks: grub.yml
+  when: config_grub
+  tags: [prep1, config_grub]
+
 - name: Configure OS network
   import_tasks: config_os_network.yml
   when: config_os_network
