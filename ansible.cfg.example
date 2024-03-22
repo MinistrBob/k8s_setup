@@ -11,3 +11,6 @@ pipelining = True # (Try it yourself). This is a more "dangerous" setting, if th
 
 [colors]
 verbose: bright blue
+# Это нужно для потому что теперь ansible 5.0 требует python 3.8, поэтому устанавливается ansible 4.10, но для ansible версий < 5.0 теперь такой адрес для установки galaxy коллекций. 
+[galaxy]
+server = https://old-galaxy.ansible.com/
