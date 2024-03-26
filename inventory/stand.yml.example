@@ -61,12 +61,15 @@ all:
     install_from_astra_repo: true         # Install from Astra repo (not vanila K8S repo)?
     #### II. Kubernetes setup - values
     # Kubernetes settings
-    # In Astra Linux it is possible to install Kubernetes version no higher than 1.23.4 from the VANILLA repository, because the Astra Linux repository has cri-tools version=1.21.0~2, and kubernetes binaries require cri-tools version >= 1.23.0.
-    # In the Astra Linux repository, the maximum Kubernetes version is 1.23.17.    
+    # NOTES for Astra Linux:
+    # 1) In Astra Linux 1.7.4 it is possible to install Kubernetes version no higher than 1.23.4 from the VANILLA repository, because the Astra Linux repository has cri-tools version=1.21.0~2, and kubernetes binaries require cri-tools version >= 1.23.0.
+    # 2) In the Astra Linux 1.7.4 repository, the maximum Kubernetes version is 1.23.17.
+    # 3) In Astra Linux 1.7.5, Docker 24.0 version from Astra Linux repository is not stable, so it is recommended to install Docker 20.10.2+dfsg1-2astra.se10+ci22 version.
     k8s_packages_version: ""              # (example: "1.23.17-00") Kubernetes packages version. Leave the value empty for 'latest'.
     k8s_version: ""                       # (example: "1.23") Kubernetes version for CRI-O repo.
     k8s_cni: calico                       # calico, flannel.
     container_runtime: docker             # docker, cri-o, containerd.
+    container_runtime_version: ""         # (example: "20.10.2+dfsg1-2astra.se10+ci22") Container runtime version.
     pod_network_cidr: "10.244.0.0/16"     # Pod subnet if using cri-o runtime (10.244.0.0/16;192.168.0.0/16).
     k8s_admins: ['root']                  # Kubernetes administrators on masters. There must be at least one administrator (example, root), otherwise it will not be possible to initialize CNI plugin.
     insecure_docker_registries: '"k8s.gcr.io","docker.io","quay.io","registry.access.redhat.com"'  # List docker registries in 'insecure-registries' in /etc/docker/daemon.json.

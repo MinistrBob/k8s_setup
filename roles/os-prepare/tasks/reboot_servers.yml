@@ -1,5 +1,5 @@
 - name: reboot servers
-  shell: sleep 3; reboot
+  shell: sleep 3 && shutdown -r now "Ansible reboot"
   ignore_errors: true
   changed_when: false
   async: 1

@@ -17,6 +17,12 @@
     update_cache: yes
   when: not (k8s_packages_version | length > 0)
 
+- name: Install kubernetes packages from Astra Linux repo specific version
+  apt:
+    name: ["kubernetes-master={{ k8s_packages_version }}", "kubernetes-admin={{ k8s_packages_version }}", "kubernetes-client={{ k8s_packages_version }}", "kubernetes-node={{ k8s_packages_version }}"]
+    update_cache: yes
+  when: (k8s_packages_version | length > 0)
+
 - name: Hold packages
   shell: "apt-mark hold kubernetes-master kubernetes-admin kubernetes-client kubernetes-node"
 

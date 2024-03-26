@@ -1,8 +1,15 @@
 ---
-- name: Install Docker from Astra repo
+- name: Install Docker package from Astra repo
   ansible.builtin.package:
     name: [docker.io]
     state: present
+  when: not (container_runtime_version | length > 0)
+
+- name: Install Docker package specific version from Astra repo
+  ansible.builtin.package:
+    name: ["docker.io={{ container_runtime_version }}"]
+    state: present
+  when: (container_runtime_version | length > 0)
 
 - name: Create other directories required
   ansible.builtin.file:
