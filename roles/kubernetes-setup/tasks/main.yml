@@ -45,7 +45,7 @@
     - "setup_{{ container_runtime }}_{{ os_distrib }}.yml"
     - "setup_{{ container_runtime }}_{{ os_family }}.yml"
   tags: cri
-  when: not only_prepare_os_for_k8s
+  when: not only_prepare_os_for_k8s and install_container_runtime
 
 # Install packages from vanila repo
 - name: Install k8s packages

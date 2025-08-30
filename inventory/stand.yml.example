@@ -59,6 +59,7 @@ all:
     etc_hosts: false              # Add to /etc/hosts all servers? (if you have DNS, then this is not necessary).
     only_prepare_os_for_k8s: false # Only prepare OS for Kubernetes (tags: pre_tasks2, firewall, dis_swap, kernel_mod, etc_hosts).    
     install_from_astra_repo: true         # Install from Astra repo (not vanila K8S repo)?
+    install_container_runtime: true  # Install container runtime
     #### II. Kubernetes setup - values
     # Kubernetes settings
     # NOTES for Astra Linux:
